@@ -90,12 +90,6 @@ std::cout << "MandelbrotIter::render finished mandlebrot" << std::endl;
 //		std::cout << "next ";
         }
 
-/*
-        for (int i = 0; i < QImageWriter::supportedImageFormats().size(); ++i) {
-                std::cout << QImageWriter::supportedImageFormats().at(i).constData()  << std::endl;
-        }
-*/
-
         if(_image != NULL) {
             delete _image;
         }
