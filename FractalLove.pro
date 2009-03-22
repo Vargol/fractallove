@@ -10,13 +10,13 @@ SOURCES += main.cpp \
     GLWidget.cpp \
     FractalController.cpp \
     Shaders/Shader.cpp \
-    Shaders/MandelbrotVelocity.cpp \
-    Shaders/NebulabrotShaderMP.cpp \
+  #  Shaders/MandelbrotVelocity.cpp \
+  #  Shaders/NebulabrotShaderMP.cpp \
     Shaders/MandelbrotShaderMP.cpp \
-    Shaders/MandelbrotBoostShaderMP.cpp \
-    Shaders/MandelbrotAvgShader.cpp \
-    Shaders/BuddhaJuliaShaderMP.cpp \
-    Shaders/BuddhabrotShaderMP.cpp \
+ #   Shaders/MandelbrotBoostShaderMP.cpp \
+ #   Shaders/MandelbrotAvgShader.cpp \
+ #   Shaders/BuddhaJuliaShaderMP.cpp \
+ #   Shaders/BuddhabrotShaderMP.cpp \
     CompositionWidget.cpp \
     Shaders/MandelbrotInter.cpp
 HEADERS += MainWindow.h \

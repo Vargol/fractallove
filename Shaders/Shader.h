@@ -12,10 +12,12 @@
 
 #include <QImage>
 #include <QHash>
+#include <QLayout>
 
+class Shader : public QObject {
 
-class Shader {
-	
+        Q_OBJECT
+
     public:
 
         Shader(void);
@@ -25,6 +27,7 @@ class Shader {
         virtual bool initializeShader()=0;  // things thats need to be done once
         virtual void render()=0;
         virtual bool postRendertidyUp()=0;  // restore everything to pre-init state
+        virtual QLayout *getParameterLayout()=0;  // get layout containing parameter controls
         //		virtual std::string *createShaderCode(bool asFunction, std::string &functionName)=0;
 
         /* non pure virtual interface functions */
@@ -47,7 +50,7 @@ class Shader {
         double *_resultsBuffer;
         unsigned char *_imageBuffer;
         double _xOffset, _yOffset, _zoom;
-
+        QLayout *_parameterLayout;
 
 	
 };

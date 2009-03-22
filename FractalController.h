@@ -10,6 +10,8 @@
  */
 #include <QObject>
 #include <QList>
+#include <QGroupBox>
+
 #include "ShaderFactory.h"
 
 class FractalController : public QObject 
@@ -25,9 +27,9 @@ public:
 	/* fractal settings */
 	double _widthRatio;
 	double _heightRatio;
-	double _zoom;
-	double _xOffset;
-	double _yOffset;
+//	double _zoom;
+//	double _xOffset;
+//	double _yOffset;
 	
 
 	/* texture settings */
@@ -44,15 +46,16 @@ public:
 	void loadTextures();
 	void unloadTextures();
         void composeImages(QPainter  &imagePainter);
+        void setFractalGroupBox(QGroupBox *gb);
 
 public slots:	
 	void setViewPortSize(int width, int height);
         void setFractalWidth(int value);
         void setFractalHeight(int value);
-	void setZoom(double value);
-	void setOffset(double x, double y);
-	void setXOffset(double x);
-	void setYOffset(double y); 	
+//	void setZoom(double value);
+//	void setOffset(double x, double y);
+//	void setXOffset(double x);
+//	void setYOffset(double y);
 	void renderToScreen();
 	void renderToTexture();
         void setFractalClass(const QString &fractalClass);
@@ -70,8 +73,8 @@ private:
 
         QList<Shader *> _fractalList;
         Shader *_selectedShader;
-
-        QHash<QString, double> _fractalParameters;
+  //      QHash<QString, double> _fractalParameters;
+        QGroupBox *_fractalGroupBox;
 };
 
 #endif

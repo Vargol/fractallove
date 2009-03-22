@@ -30,9 +30,6 @@ class MainWindow : public QWidget
                 CompositionWidget *_compWidget;
                 FractalController _fc;
                 QComboBox *_fractals;
-                QDoubleSpinBox *_xOffsetSpinBox;
-                QDoubleSpinBox *_yOffsetSpinBox;
-                QDoubleSpinBox *_zoomSpinBox;
                 QPushButton *_preview;
 
 		void connectSignalAndSlots();

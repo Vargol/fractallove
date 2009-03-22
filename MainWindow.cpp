@@ -55,52 +55,27 @@ MainWindow::MainWindow(void) : QWidget(NULL) {
 	
 	gb->setLayout(grid);
 	vbox->addWidget(gb);
-	
-//	vbox->addSpacing(16);
-	
-	gb = new QGroupBox (tr("Fractal"));
-	grid = new QGridLayout;
 
-       _fractals = new QComboBox;
+        _fractals = new QComboBox;
 
         _fractals->addItem(tr("MandelBrot"));
         _fractals->addItem(tr("MandelbrotInter"));
         _fractals->addItem(tr("Buddhabrot"));
         _fractals->addItem(tr("Buddhabrot Julia"));
 
-        grid->addWidget(new QLabel(tr("Fractal: ")), 1,0);
-        grid->addWidget(_fractals, 1,1);
+        vbox->addWidget(_fractals);
 
+	gb = new QGroupBox (tr("Fractal"));
 
-	grid->addWidget(new QLabel(tr("Centre x: ")), 2, 0);
-	grid->addWidget(new QLabel(tr("Centre y: ")), 3, 0);
-	grid->addWidget(new QLabel(tr("Zoom: ")), 4, 0);
+        _fc.setFractalGroupBox(gb);
 
-        _xOffsetSpinBox = new QDoubleSpinBox;
-        _xOffsetSpinBox->setMinimum(-99.9);
-        _xOffsetSpinBox->setDecimals(9);
-        grid->addWidget(_xOffsetSpinBox, 2, 1);
-
-        _yOffsetSpinBox = new QDoubleSpinBox;
-        _yOffsetSpinBox->setMinimum(-99.9);
-        _yOffsetSpinBox->setDecimals(9);
-        grid->addWidget(_yOffsetSpinBox, 3, 1);
-
-	
-
-        _zoomSpinBox = new QDoubleSpinBox;
-        _zoomSpinBox->setMinimum(-99.9);
-        _zoomSpinBox->setDecimals(9);
-        grid->addWidget(_zoomSpinBox, 4, 1);
+	vbox->addWidget(gb);
 
         _preview = new QPushButton(tr("Preview"));
 
-        grid->addWidget(_preview, 5, 1);
+        vbox->addWidget(_preview);
 
-        gb->setLayout(grid);
-
-	vbox->addWidget(gb);
-	vbox->addItem(new QSpacerItem(1,400, QSizePolicy::Fixed, QSizePolicy::Expanding));
+        vbox->addItem(new QSpacerItem(1,400, QSizePolicy::Fixed, QSizePolicy::Expanding));
 	
 	hbox->addItem(vbox);
 
@@ -121,12 +96,6 @@ void MainWindow::resize(int width, int height)
 
 void MainWindow::connectSignalAndSlots () {
 	
-//        QObject::connect(&_fc, SIGNAL(renderToScreen()),
-//                                         &_fc, SLOT(renderToScreen()));
-
- //       QObject::connect(&_fc, SIGNAL(viewportResized(int, int)),
-   //                                      &_fc, SLOT(setViewPortSize(int, int)));
-	
 
         QObject::connect(_fractals, SIGNAL(currentIndexChanged(const QString &)),
                                          &_fc, SLOT(setFractalClass(const QString &)));
@@ -136,7 +105,7 @@ void MainWindow::connectSignalAndSlots () {
 
         QObject::connect(&_fc, SIGNAL(redrawFractal()),
                                          _compWidget, SLOT(update()));
-        QObject::connect(_xOffsetSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setXOffset(double)));
-        QObject::connect(_yOffsetSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setYOffset(double)));
-        QObject::connect(_zoomSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setZoom(double)));
+//        QObject::connect(_xOffsetSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setXOffset(double)));
+//        QObject::connect(_yOffsetSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setYOffset(double)));
+//        QObject::connect(_zoomSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setZoom(double)));
     }

@@ -19,6 +19,7 @@ Shader::Shader(void) {
         _resultsBuffer = NULL;
         _imageBuffer = NULL;
         _functionName = std::string("don't use this name");
+        _parameterLayout = NULL;
 } 
 
 Shader::~Shader(void) {

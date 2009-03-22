@@ -14,6 +14,8 @@
 
 class MandelbrotShaderMP : public Shader {
 
+    Q_OBJECT
+
 public:
 	/* shader interface */
 	MandelbrotShaderMP();
@@ -23,8 +25,13 @@ public:
 	virtual std::string &functionName(void);
         virtual void setRenderSize(unsigned int, unsigned int);
         virtual void render();
+        virtual QLayout *getParameterLayout();  // get layout containing parameter controls
 //        virtual void render(double top, double bottom, double left, double right);
 
+protected slots:
+        void setZoom(double value);
+        void setXCentre(double);
+        void setYCentre(double y);
 
 };
 

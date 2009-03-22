@@ -28,14 +28,26 @@ texture 2 -> VBO GL_POINTS
 #include <iostream>
 #include <complex>
 
+#include <QDoubleSpinBox>
 #include <QImageWriter>
+#include <QGroupBox>
+#include <QLabel>
+#include <QPushButton>
 
-typedef std::complex<double> complex;
+
+//typedef std::complex<double> complex;
 
 #include "MandelbrotShaderMP.h"
 
+
+using namespace std;
+
 MandelbrotShaderMP::MandelbrotShaderMP(void) {
 	_functionName = std::string("fnMandelbrotMPShader");
+        _zoom = 2.0;
+        _xOffset = 0.0;
+        _yOffset = 0.0;
+
 } 
 
 
@@ -43,12 +55,7 @@ bool MandelbrotShaderMP::initializeShader() {
 	
 	std::cout << "MandelbrotShaderMP::initializeShader" << std::endl;
 
-	
-	/* create PBO's **/
-//	_zoom = 2.0;
-//	_xOffset = 0.0;
-//	_yOffset = 0.0;
-	
+
 	return true;
 
 	
@@ -110,11 +117,11 @@ void MandelbrotShaderMP::render() {
 	double xOffset = -(widthDelta * _textureWidth / 2.0);
 	double yOffset = -(heightDelta * _textureHeight / 2.0);
 
-	complex z0 = complex (xOffset, yOffset);
-	complex c, z;
+        complex<double> z0 = complex<double> (xOffset, yOffset);
+        complex<double> c, z;
         unsigned int maxIter = 50;
 	double maxIterDouble = 250.0 / (double)maxIter ;	
-	complex delta = complex(widthDelta, heightDelta);
+        complex<double> delta = complex<double>(widthDelta, heightDelta);
 
 	double *resultsBuffer = _resultsBuffer;
 
@@ -122,13 +129,13 @@ void MandelbrotShaderMP::render() {
 
         unsigned int x;
 	
-	complex temp;
+        complex<double> temp;
 	
 #pragma omp parallel for ordered schedule(dynamic) private(i, x, z, z0)
         for(unsigned int y=0; y<_textureHeight; y++) {
 		for(x=0; x<_textureWidth; x++) {
-			z0 = complex(xOffset, yOffset);
-			z0 +=  complex(x * widthDelta, y * heightDelta);;
+                        z0 = complex<double>(xOffset, yOffset);
+                        z0 +=  complex<double>(x * widthDelta, y * heightDelta);;
 			z = z0;
 			for (i = 0; i < maxIter; i++) {
 				if(z.real() * z.real() + z.imag() * z.imag() >=  4.0) {
@@ -188,5 +195,66 @@ std::string &MandelbrotShaderMP::functionName(void) {
 	return _functionName;
 }
 
+QLayout *MandelbrotShaderMP::getParameterLayout(void) {
 
 
+
+        QGridLayout *parameterLayout = new QGridLayout;
+
+  //      parameterLayout->addWidget(new QLabel(tr("Fractal: ")), 1,0);
+  ///      parameterLayout->addWidget(_fractals, 1,1);
+
+
+        parameterLayout->addWidget(new QLabel(tr("Centre x: ")), 1, 0);
+        parameterLayout->addWidget(new QLabel(tr("Centre y: ")), 2, 0);
+        parameterLayout->addWidget(new QLabel(tr("Zoom: ")), 3, 0);
+
+       QDoubleSpinBox *_xOffsetSpinBox = new QDoubleSpinBox;
+        _xOffsetSpinBox->setMinimum(-99.9);
+        _xOffsetSpinBox->setDecimals(9);
+        _xOffsetSpinBox->setValue(_xOffset);
+        parameterLayout->addWidget(_xOffsetSpinBox, 1, 1);
+
+        QDoubleSpinBox *_yOffsetSpinBox = new QDoubleSpinBox;
+        _yOffsetSpinBox->setMinimum(-99.9);
+        _yOffsetSpinBox->setDecimals(9);
+        _yOffsetSpinBox->setValue(_yOffset);
+        parameterLayout->addWidget(_yOffsetSpinBox, 2, 1);
+
+
+
+        QDoubleSpinBox *_zoomSpinBox = new QDoubleSpinBox;
+        _zoomSpinBox->setMinimum(-99.9);
+        _zoomSpinBox->setDecimals(9);
+        _zoomSpinBox->setValue(_zoom);
+
+        parameterLayout->addWidget(_zoomSpinBox, 3, 1);
+
+        QObject::connect(_xOffsetSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setXCentre(double)));
+        QObject::connect(_yOffsetSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setYCentre(double)));
+        QObject::connect(_zoomSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setZoom(double)));
+
+        _parameterLayout    = parameterLayout;
+
+    return _parameterLayout;
+
+ }
+
+void MandelbrotShaderMP::setZoom(double value) {
+
+        _zoom = value;
+}
+
+
+void MandelbrotShaderMP::setXCentre(double x) {
+
+
+        _xOffset = x;
+
+}
+
+void MandelbrotShaderMP::setYCentre(double y) {
+
+        _yOffset = -y;
+
+}

@@ -33,10 +33,6 @@ FractalController::FractalController() {
 
         _selectedShader = NULL;
 
-        _fractalParameters["xOffset"] = 0.0;
-        _fractalParameters["yOffset"] = 0.0;
-        _fractalParameters["zoom"] = 1.0;
-
 }
 
 
@@ -68,7 +64,7 @@ void FractalController::renderToScreen() {
     }
     setRatios();
     _selectedShader->setRenderSize(_previewWidth, _previewHeight);
-    _selectedShader->setRenderParameters(_fractalParameters);
+ //   _selectedShader->setRenderParameters(_fractalParameters);
     _selectedShader->initializeShader();
     _selectedShader->render();
 
@@ -119,11 +115,11 @@ void FractalController::setViewPortSize(int width, int height) {
 
 void FractalController::setFractalWidth(int value) {
 	
-        if(value == _fractalWidth) {
-		return;
-	}
-	
-        _fractalWidth = value;
+    if(value == _fractalWidth) {
+        return;
+    }
+
+    _fractalWidth = value;
     setRatios();
 }
 
@@ -137,53 +133,6 @@ void FractalController::setFractalHeight(int value)  {
     setRatios();
 }
 
-void FractalController::setZoom(double value) {
-
-	if(value == _zoom) {
-		return;
-	}
-	
-	_zoom = value;
-        _fractalParameters["zoom"] = value;
-
-    setRatios();
-	
-}
-
-
-void FractalController::setOffset(double x, double y) {
-	
-	if(x == _xOffset && y == _yOffset) {
-		return;
-	}
-	
-	_xOffset = x;
-	_yOffset = y;
-	
-}
-
-void FractalController::setXOffset(double x) {
-	
-	if(x == _xOffset) {
-		return;
-	}
-	
-	_xOffset = x;
-
-        _fractalParameters["xOffset"] = x;
-	
-}
-
-void FractalController::setYOffset(double y) {
-	
-	if(y == _yOffset) {
-		return;
-	}
-	
-        _yOffset = -y;
-        _fractalParameters["yOffset"] = -y;
-
-}
 
 void FractalController::setFractalClass(const QString &fractalClass)
 {
@@ -196,6 +145,13 @@ void FractalController::setFractalClass(const QString &fractalClass)
             addShader(new MandelbrotInter());
         }
 
+        QLayout *old = _fractalGroupBox->layout();
+        if(old != NULL) {
+            delete(old);
+        }
+         _fractalGroupBox->setLayout(_selectedShader->getParameterLayout());
+
+        _fractalGroupBox->updateGeometry();
 ;
 }
 
@@ -229,3 +185,13 @@ void FractalController::composeImages(QPainter  &imagePainter) {
 
 
 }
+
+void FractalController::setFractalGroupBox(QGroupBox *gb) {
+
+    _fractalGroupBox = gb;
+}
+
+
+
+
+
