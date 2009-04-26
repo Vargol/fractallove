@@ -33,7 +33,6 @@ class Shader : public QObject {
         /* non pure virtual interface functions */
 //        virtual void render(double top, double bottom, double left, double right);
         virtual void setRenderSize(unsigned int width, unsigned int height);
-        virtual void setRenderParameters(QHash<QString, double> &parameters);
         virtual QImage *getRenderedImage();
 
 

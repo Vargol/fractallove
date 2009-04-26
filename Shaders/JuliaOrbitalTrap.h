@@ -10,25 +10,38 @@
 #ifndef JULIAORBITALTRAP_H
 #define JULIAORBITALTRAP_H
 
-#include "Shader.h"
+#include "OpenGLShader.h"
 
-class JuliaOrbitalTrap : public Shader {
-
+class JuliaOrbitalTrap : public OpenGLShader {
+   Q_OBJECT
 public:
+        JuliaOrbitalTrap();
 	/* shader interface */
 	virtual bool initializeShader();  // things thats need to be done once
 	virtual bool preRenderInitialization(); // things thats need to be done once just before a render.
 	virtual bool postRendertidyUp();  // restore everything to pre-init state
-	
+        QLayout *getParameterLayout(void);
+
+        virtual void setRenderSize(unsigned int width, unsigned int height);
+        virtual void render(void);
+
 private:
 		
 	void createJuliaShader();
 
-	GLuint gradientTexture;
-	GLuint fragShader;
-	GLuint shaderProgram;
+        GLuint _trapTexture;
+        GLuint _renderToTexture;
+        GLuint _fragShader;
+        GLuint _shaderProgram;
+        GLuint _fbo;
 
-	GLfloat gradient[1024];
+        double _zoom, _xOffset, _yOffset;
+
+protected slots:
+
+        void setZoom(double value);
+        void setXCentre(double);
+        void setYCentre(double y);
 
 };
 

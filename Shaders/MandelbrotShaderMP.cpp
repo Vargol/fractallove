@@ -118,7 +118,7 @@ void MandelbrotShaderMP::render() {
 	double yOffset = -(heightDelta * _textureHeight / 2.0);
 
         complex<double> z0 = complex<double> (xOffset, yOffset);
-        complex<double> c, z;
+        complex<double> z;
         unsigned int maxIter = 50;
 	double maxIterDouble = 250.0 / (double)maxIter ;	
         complex<double> delta = complex<double>(widthDelta, heightDelta);
@@ -144,7 +144,7 @@ void MandelbrotShaderMP::render() {
 				z = z*z + z0;
 			}
                         *(resultsBuffer+(y * _textureWidth) + x) = i;
-			z0 += widthDelta;
+//			z0 += widthDelta;
 		} 
 	} 
 
@@ -167,12 +167,6 @@ std::cout << "MandelbrotShaderMP::render finished mandlebrot" << std::endl;
                 }
 //		std::cout << "next ";
 	}
-
-/*
-	for (int i = 0; i < QImageWriter::supportedImageFormats().size(); ++i) {
-		std::cout << QImageWriter::supportedImageFormats().at(i).constData()  << std::endl;
-	}
-*/
 
         if(_image != NULL) {
             delete _image;

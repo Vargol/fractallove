@@ -50,10 +50,3 @@ void Shader::render() {
             return _image;
  }
 
-void Shader::setRenderParameters(QHash<QString, double> &parameters) {
-
-   _xOffset = parameters.value("xOffset");
-   _yOffset = parameters["yOffset"];
-   _zoom = parameters["zoom"];
-
-}

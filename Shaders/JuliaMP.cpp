@@ -1,22 +1,39 @@
-#include "MandelbrotInter.h"
+#include "JuliaOrbitalTrapMP.h"
 
 #include <iostream>
 #include <complex>
 
-#include <QImageWriter>
+#include <QString>
+#include <QImage>
 
-typedef std::complex<double> complex;
+using namespace std;
 
-MandelbrotInter::MandelbrotInter()
-{
-    _functionName = std::string("fnMandelbrotInter");
+JuliaOrbitalTrapMP::JuliaOrbitalTrapMP() {
+
+    _image = NULL;
+    _real = 0.7;
+    _imaginary = 0.7;
 }
 
-void MandelbrotInter::render() {
+bool JuliaOrbitalTrapMP::initializeShader() {
+
+    if(_imageFile == NULL) {
+  //      return false;
+    }
+
+    if(_trapImage != NULL) {
+        delete _trapImage;
+    }
+    _image = new QImage(_imageFile);
+
+    return true;
+}
+
+void JuliaOrbitalTrapMP::render() {
 
 //	sleep(10);
 
-        std::cout << "MandelbrotIter::render "  << _textureWidth << ", " << _textureHeight << std::endl;
+        std::cout << "JuliaOrbitalTrapMP::render "  << _textureWidth << ", " << _textureHeight << std::endl;
 
         bzero (_resultsBuffer, _textureHeight * _textureWidth * sizeof(double));
 
@@ -31,45 +48,39 @@ void MandelbrotInter::render() {
             widthDelta = _zoom / (double)(_textureHeight + 1.0);
         }
 
-  //      double xOffset = -(widthDelta * _textureWidth / 2.0);
-  //      double yOffset = -(heightDelta * _textureHeight / 2.0);
+        double xOffset = -(widthDelta * _textureWidth / 2.0)  + _xOffset;
+        double yOffset = -(heightDelta * _textureHeight / 2.0) + _yOffset;
 
-        double xOffset = _xOffset - (widthDelta * _textureWidth / 2.0);
-        double yOffset =  _yOffset - (heightDelta * _textureHeight / 2.0);
+        complex<double> c = complex<double> (_real, _imaginary);
+        complex<double> z;
 
-        complex z0 = complex (xOffset, yOffset);
-        complex c, z;
         unsigned int maxIter = 50;
         double maxIterDouble = 250.0 / (double)maxIter ;
-        complex delta = complex(widthDelta, heightDelta);
+
+        complex<double> delta = complex<double>(widthDelta, heightDelta);
 
         double *resultsBuffer = _resultsBuffer;
 
         unsigned int i;
 
-        unsigned int x, result = 0.0, oldResult = 0.0;
+        unsigned int x;
 
-        complex temp;
-
-#pragma omp parallel for ordered schedule(dynamic) private(i, x, z, z0, result, oldResult)
+#pragma omp parallel for ordered schedule(dynamic) private(i, x, z)
         for(unsigned int y=0; y<_textureHeight; y++) {
                 for(x=0; x<_textureWidth; x++) {
-                        z0 = complex(xOffset, yOffset);
-                        z0 +=  complex(x * widthDelta, y * heightDelta);;
-                        z = z0;
+                        z = complex<double>(xOffset, yOffset);
+                        z +=  complex<double>(x * widthDelta, y * heightDelta);
                         for (i = 0; i < maxIter; i++) {
-                                result = z.real() * z.real() + z.imag() * z.imag();
-                                if(result  >=  4.0) {
+                                if(z.real() * z.real() + z.imag() * z.imag() >=  4.0) {
                                         break;
                                 }
-                                z = z*z + z0;
-                                oldResult = result;
+                                z = z*z + c;
                         }
-                        *(resultsBuffer+(y * _textureWidth) + x) = i + ((4.0 - oldResult) / (result - oldResult)) - 1.0;
+                        *(resultsBuffer+(y * _textureWidth) + x) = i;
                 }
         }
 
-std::cout << "MandelbrotIter::render finished mandlebrot" << std::endl;
+std::cout << "JuliaOrbitalTrapMP::render finished mandlebrot" << std::endl;
 
         resultsBuffer = _resultsBuffer;
         unsigned char *imageBuffer = _imageBuffer;
@@ -92,7 +103,6 @@ std::cout << "MandelbrotIter::render finished mandlebrot" << std::endl;
         if(_image != NULL) {
             delete _image;
         }
-
         _image = new QImage (_imageBuffer, _textureWidth, _textureHeight,  _textureWidth*4 , QImage::Format_RGB32);
 
         QString str = "/home/david/test.png";
@@ -104,3 +114,4 @@ std::cout << "MandelbrotIter::render finished mandlebrot" << std::endl;
 
 
 }
+

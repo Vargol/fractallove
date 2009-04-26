@@ -20,6 +20,10 @@
 #include "FractalController.h"
 #include "Shaders/MandelbrotShaderMP.h"
 #include "Shaders/MandelbrotInter.h"
+#include "Shaders/PerlinNoiseShader.h"
+#include "Shaders/JuliaOrbitalTrapMP.h"
+#include "Shaders/MandelbrotOrbitTrap.h"
+#include "Shaders/MandelbrotImageTrap.h"
 
 using namespace std;
 
@@ -143,6 +147,14 @@ void FractalController::setFractalClass(const QString &fractalClass)
             addShader(new MandelbrotShaderMP());
         } else if(fractalClass.compare(QObject::tr("MandelbrotInter")) == 0) {
             addShader(new MandelbrotInter());
+        } else if(fractalClass.compare(QObject::tr("Perlin Noise")) == 0) {
+            addShader(new PerlinNoiseShader());
+        } else if(fractalClass.compare(QObject::tr("Julia Orbital Trap")) == 0) {
+            addShader(new JuliaOrbitalTrapMP());
+        } else if(fractalClass.compare(QObject::tr("Mandelbrot Orbit Trap")) == 0) {
+            addShader(new MandelbrotOrbitTrap());
+        } else if(fractalClass.compare(QObject::tr("Mandelbrot Image Trap")) == 0) {
+            addShader(new MandelbrotImageTrap());
         }
 
         QLayout *old = _fractalGroupBox->layout();
@@ -177,8 +189,9 @@ void FractalController::composeImages(QPainter  &imagePainter) {
 
             buffer = imageItor.next();
             tmpImage = buffer->getRenderedImage();
-
-            imagePainter.drawImage(0,0, *tmpImage);
+            if(tmpImage != NULL) {
+                imagePainter.drawImage(0,0, *tmpImage);
+            }
         }
 
     }
