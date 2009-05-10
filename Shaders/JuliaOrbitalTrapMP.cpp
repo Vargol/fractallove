@@ -3,16 +3,21 @@
 #include <iostream>
 #include <complex>
 
-#include <QString>
+#include <QDoubleSpinBox>
+#include <QGroupBox>
 #include <QImage>
+#include <QLabel>
+#include <QPushButton>
+#include <QString>
 
 using namespace std;
 
 JuliaOrbitalTrapMP::JuliaOrbitalTrapMP() {
 
+
     _image = NULL;
-    _real = 0.7;
-    _imaginary = 0.2;
+    _real =  0.687;
+    _imaginary = 0.312;
     _imageFile = "basic00.jpg";
     _trapImage = NULL;
     _oversample = 4;
@@ -63,8 +68,8 @@ void JuliaOrbitalTrapMP::render() {
     int textureHeight = _textureHeight * _oversample;
     int textureWidth = _textureWidth * _oversample;
 
-    int height = _trapImage->height();
-    int width = _trapImage->width();
+    int height = _trapImage->height() - 1;
+    int width = _trapImage->width() - 1;
     int bps = _trapImage->depth() == 32 ? 4 : 3;
         std::cout << "JuliaOrbitalTrapMP::render "  << _textureWidth << ", " << _textureHeight << std::endl;
 
@@ -81,13 +86,13 @@ void JuliaOrbitalTrapMP::render() {
             widthDelta = _zoom / (double)(textureHeight + 1.0);
         }
 
-        double xOffset = -(widthDelta * textureWidth / 2.0)  + _xOffset;
-        double yOffset = -(heightDelta * textureHeight / 2.0) + _yOffset;
+        double xOffset = _xOffset-(widthDelta * _textureWidth / 2.0);
+        double yOffset = _yOffset-(heightDelta * _textureHeight / 2.0);
 
         complex<double> c = complex<double> (_real, _imaginary);
         complex<double> z;
 
-        unsigned int maxIter = 50;
+        unsigned int maxIter = _iterations;
         double maxIterDouble = 250.0 / (double)maxIter ;
 
         complex<double> delta = complex<double>(widthDelta, heightDelta);
@@ -116,9 +121,18 @@ void JuliaOrbitalTrapMP::render() {
                         }
                         
                         int offset = (y * textureWidth) + x;
-                     //   z += imageOffset;
-                        int trapOffset = floor(fmod(fabs(z.real()), 1.0)  *  height) * width;
-                       trapOffset += floor(fmod(fabs(z.imag()), 1.0) * width);
+
+//                        int trapOffset = floor(fmod(fabs(z.real()), 1.0)  *  height) * width;
+//                       trapOffset += floor(fmod(fabs(z.imag()), 1.0) * width);
+
+
+                        double real = fabs(z.real());
+                        real -=  (int)real;
+                        int trapOffset = floor(real *  height) * width;
+
+                        double imag = fabs(z.imag());
+                        imag -=  (int)imag;
+                        trapOffset += (imag * width);
 
                        if(trapOffset * bps > _trapImage->numBytes()) {
                            cout <<  "bad value " <<fmod(fabs(z.real()), 1.0) << ',' <<fmod(fabs(z.imag()), 1.0)<< endl;
@@ -151,7 +165,48 @@ std::cout << "JuliaOrbitalTrapMP::render finished mandlebrot" << std::endl;
 
         std::cout << "Saved image " << saved <<  std::endl;
 
-
-
 }
 
+QLayout *JuliaOrbitalTrapMP::getParameterLayout(void) {
+
+
+
+        QGridLayout *parameterLayout =  (QGridLayout *)MandelbrotShaderMP::getParameterLayout();
+
+
+        parameterLayout->addWidget(new QLabel(tr("Iterations: ")), 4, 0);
+        parameterLayout->addWidget(new QLabel(tr("Cr: ")), 5, 0);
+        parameterLayout->addWidget(new QLabel(tr("Ci: ")), 6, 0);
+
+
+
+        QDoubleSpinBox *_realSpinBox = new QDoubleSpinBox;
+        _realSpinBox->setMinimum(-99.9);
+        _realSpinBox->setDecimals(9);
+        _realSpinBox->setValue(_real);
+        parameterLayout->addWidget(_realSpinBox, 5, 1);
+
+        QDoubleSpinBox *_imagSpinBox = new QDoubleSpinBox;
+        _imagSpinBox->setMinimum(-99.9);
+        _imagSpinBox->setDecimals(9);
+        _imagSpinBox->setValue(_imaginary);
+        parameterLayout->addWidget(_imagSpinBox, 6, 1);
+
+        QObject::connect(_realSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setReal(double)));
+        QObject::connect(_imagSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setImaginary(double)));
+
+        _parameterLayout    = parameterLayout;
+
+    return _parameterLayout;
+
+ }
+
+void JuliaOrbitalTrapMP::setReal(double cr) {
+
+        _real = cr;
+}
+
+void JuliaOrbitalTrapMP::setImaginary(double ci) {
+
+        _imaginary = ci;
+}

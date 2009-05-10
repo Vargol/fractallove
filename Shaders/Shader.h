@@ -13,6 +13,7 @@
 #include <QImage>
 #include <QHash>
 #include <QLayout>
+#include <QMouseEvent>
 
 class Shader : public QObject {
 
@@ -28,10 +29,10 @@ class Shader : public QObject {
         virtual void render()=0;
         virtual bool postRendertidyUp()=0;  // restore everything to pre-init state
         virtual QLayout *getParameterLayout()=0;  // get layout containing parameter controls
-        //		virtual std::string *createShaderCode(bool asFunction, std::string &functionName)=0;
+        virtual void mouseReleaseEvent (QMouseEvent *event)=0;
+
 
         /* non pure virtual interface functions */
-//        virtual void render(double top, double bottom, double left, double right);
         virtual void setRenderSize(unsigned int width, unsigned int height);
         virtual QImage *getRenderedImage();
 
@@ -48,7 +49,6 @@ class Shader : public QObject {
         QImage *_image;
         double *_resultsBuffer;
         unsigned char *_imageBuffer;
-        double _xOffset, _yOffset, _zoom;
         QLayout *_parameterLayout;
 
 	

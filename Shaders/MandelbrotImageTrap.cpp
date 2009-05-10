@@ -118,8 +118,8 @@ void MandelbrotImageTrap::render() {
                        }
                         
                        int offset = (y * textureWidth) + x;
-                       int trapOffset = floor(fmod(fabs(z.real()), 1.0)  *  height) * width;
-                       trapOffset += floor(fmod(fabs(z.imag()), 1.0) * width);
+                       int trapOffset = floor(abs(fmod(z.real(), 1.0))  *  height) * width;
+                       trapOffset += floor(abs(fmod(z.imag(), 1.0)) * width);
 
                        if(trapOffset * bps > _trapImage->numBytes()) {
                            cout <<  "bad value " <<fmod(fabs(z.real()), 1.0) << ',' <<fmod(fabs(z.imag()), 1.0)<< endl;

@@ -24,12 +24,15 @@ public:
     virtual void setRenderSize(unsigned int, unsigned int);
     virtual void render();
     virtual QLayout *getParameterLayout();  // get layout containing parameter controls
+    virtual void mouseReleaseEvent (QMouseEvent *event);
 
 
 private:
 
     const static int PERLIN_SIZE = 256;
     const static int PERLIN_MASK = 255;
+
+    double _xOffset, _yOffset, _zoom;
 
     int perlin[512];
 

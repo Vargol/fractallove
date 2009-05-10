@@ -22,8 +22,8 @@
 #include "Shaders/MandelbrotInter.h"
 #include "Shaders/PerlinNoiseShader.h"
 #include "Shaders/JuliaOrbitalTrapMP.h"
-#include "Shaders/MandelbrotOrbitTrap.h"
 #include "Shaders/MandelbrotImageTrap.h"
+#include "Shaders/MandelbrotOrbitTrap.h"
 
 using namespace std;
 
@@ -70,7 +70,13 @@ void FractalController::renderToScreen() {
     _selectedShader->setRenderSize(_previewWidth, _previewHeight);
  //   _selectedShader->setRenderParameters(_fractalParameters);
     _selectedShader->initializeShader();
+
+     QTime t;
+    t.start();
+
     _selectedShader->render();
+
+    qDebug("Time elapsed: %d ms", t.elapsed());
 
     emit redrawFractal();
 }
@@ -161,10 +167,13 @@ void FractalController::setFractalClass(const QString &fractalClass)
         if(old != NULL) {
             delete(old);
         }
-         _fractalGroupBox->setLayout(_selectedShader->getParameterLayout());
 
+        _fractalGroupBox->update();
+
+        _fractalGroupBox->setLayout(_selectedShader->getParameterLayout());
         _fractalGroupBox->updateGeometry();
-;
+
+
 }
 
 void FractalController::addShader(Shader *shader) {
@@ -183,8 +192,9 @@ void FractalController::composeImages(QPainter  &imagePainter) {
         Shader *buffer = imageItor.next();
         QImage *tmpImage = buffer->getRenderedImage();
 
-        imagePainter.drawImage(0,0, *tmpImage);
-
+            if(tmpImage != NULL) {
+                imagePainter.drawImage(0,0, *tmpImage);
+            }
         while (imageItor.hasNext()) {
 
             buffer = imageItor.next();
@@ -205,6 +215,13 @@ void FractalController::setFractalGroupBox(QGroupBox *gb) {
 }
 
 
+void FractalController::mouseReleaseEvent (QMouseEvent *event) {
+    if(_selectedShader == NULL) {
+        return;
+    }
+    _selectedShader->mouseReleaseEvent (event);
+    renderToScreen();
+}
 
 
 

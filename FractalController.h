@@ -27,10 +27,7 @@ public:
 	/* fractal settings */
 	double _widthRatio;
 	double _heightRatio;
-//	double _zoom;
-//	double _xOffset;
-//	double _yOffset;
-	
+
 
 	/* texture settings */
         double _fractalWidth;
@@ -47,6 +44,7 @@ public:
 	void unloadTextures();
         void composeImages(QPainter  &imagePainter);
         void setFractalGroupBox(QGroupBox *gb);
+        void mouseReleaseEvent (QMouseEvent *event);
 
 public slots:	
 	void setViewPortSize(int width, int height);

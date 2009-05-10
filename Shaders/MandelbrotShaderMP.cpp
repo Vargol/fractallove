@@ -28,7 +28,6 @@ texture 2 -> VBO GL_POINTS
 #include <iostream>
 #include <complex>
 
-#include <QDoubleSpinBox>
 #include <QImageWriter>
 #include <QGroupBox>
 #include <QLabel>
@@ -47,6 +46,9 @@ MandelbrotShaderMP::MandelbrotShaderMP(void) {
         _zoom = 2.0;
         _xOffset = 0.0;
         _yOffset = 0.0;
+        _iterations = 100;
+        _image = NULL;
+        _xOffsetSpinBox = NULL;
 
 } 
 
@@ -114,13 +116,13 @@ void MandelbrotShaderMP::render() {
 	    widthDelta = _zoom / (double)(_textureHeight + 1.0);
 	}
 
-	double xOffset = -(widthDelta * _textureWidth / 2.0);
-	double yOffset = -(heightDelta * _textureHeight / 2.0);
+        double xOffset = _xOffset-(widthDelta * _textureWidth / 2.0);
+        double yOffset = _yOffset-(heightDelta * _textureHeight / 2.0);
 
         complex<double> z0 = complex<double> (xOffset, yOffset);
         complex<double> z;
-        unsigned int maxIter = 50;
-	double maxIterDouble = 250.0 / (double)maxIter ;	
+
+        double maxIterDouble = 250.0 / (double)_iterations ;
         complex<double> delta = complex<double>(widthDelta, heightDelta);
 
 	double *resultsBuffer = _resultsBuffer;
@@ -137,7 +139,7 @@ void MandelbrotShaderMP::render() {
                         z0 = complex<double>(xOffset, yOffset);
                         z0 +=  complex<double>(x * widthDelta, y * heightDelta);;
 			z = z0;
-			for (i = 0; i < maxIter; i++) {
+                        for (i = 0; i < _iterations; i++) {
 				if(z.real() * z.real() + z.imag() * z.imag() >=  4.0) {
 					break;
 				}
@@ -159,7 +161,7 @@ std::cout << "MandelbrotShaderMP::render finished mandlebrot" << std::endl;
 		for(x=0; x<_textureWidth; x++) {
 			int offset = (y * _textureWidth) + x;
 //                      std::cout << offset << " ";
-                        byteValue = (unsigned char)(*(resultsBuffer+offset) * (double)maxIterDouble);
+                        byteValue = (unsigned char)(*(resultsBuffer+offset) * 6.0);
 			*(imageBuffer  + (offset * 4)) = byteValue;
 			*(imageBuffer  + (offset * 4) + 1) = byteValue;
 			*(imageBuffer  + (offset * 4) + 2) = byteValue;
@@ -202,19 +204,19 @@ QLayout *MandelbrotShaderMP::getParameterLayout(void) {
         parameterLayout->addWidget(new QLabel(tr("Centre x: ")), 1, 0);
         parameterLayout->addWidget(new QLabel(tr("Centre y: ")), 2, 0);
         parameterLayout->addWidget(new QLabel(tr("Zoom: ")), 3, 0);
+        parameterLayout->addWidget(new QLabel(tr("Iterations: ")), 4, 0);
 
-       QDoubleSpinBox *_xOffsetSpinBox = new QDoubleSpinBox;
+        _xOffsetSpinBox = new QDoubleSpinBox;
         _xOffsetSpinBox->setMinimum(-99.9);
         _xOffsetSpinBox->setDecimals(9);
         _xOffsetSpinBox->setValue(_xOffset);
         parameterLayout->addWidget(_xOffsetSpinBox, 1, 1);
 
-        QDoubleSpinBox *_yOffsetSpinBox = new QDoubleSpinBox;
+        _yOffsetSpinBox = new QDoubleSpinBox;
         _yOffsetSpinBox->setMinimum(-99.9);
         _yOffsetSpinBox->setDecimals(9);
         _yOffsetSpinBox->setValue(_yOffset);
         parameterLayout->addWidget(_yOffsetSpinBox, 2, 1);
-
 
 
         QDoubleSpinBox *_zoomSpinBox = new QDoubleSpinBox;
@@ -224,9 +226,17 @@ QLayout *MandelbrotShaderMP::getParameterLayout(void) {
 
         parameterLayout->addWidget(_zoomSpinBox, 3, 1);
 
+
+        QSpinBox *_iterationsSpinBox = new QSpinBox;
+        _iterationsSpinBox->setMinimum(1);
+        _iterationsSpinBox->setMaximum(INT32_MAX);
+        _iterationsSpinBox->setValue(_iterations);
+        parameterLayout->addWidget(_iterationsSpinBox, 4, 1);
+
         QObject::connect(_xOffsetSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setXCentre(double)));
         QObject::connect(_yOffsetSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setYCentre(double)));
         QObject::connect(_zoomSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setZoom(double)));
+        QObject::connect(_iterationsSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setIterations(int)));
 
         _parameterLayout    = parameterLayout;
 
@@ -242,13 +252,41 @@ void MandelbrotShaderMP::setZoom(double value) {
 
 void MandelbrotShaderMP::setXCentre(double x) {
 
-
         _xOffset = x;
-
 }
 
 void MandelbrotShaderMP::setYCentre(double y) {
 
-        _yOffset = -y;
-
+        _yOffset = y;
 }
+
+void MandelbrotShaderMP::setIterations(int i) {
+
+        _iterations = i;
+}
+
+void MandelbrotShaderMP::mouseReleaseEvent (QMouseEvent *event) {
+
+        double widthDelta, heightDelta;
+
+
+        if(_textureWidth < _textureHeight) {
+                widthDelta = _zoom * (_textureWidth / (double)_textureHeight) / (_textureWidth + 1.0);
+                heightDelta = _zoom / (_textureHeight + 1.0);
+        } else {
+            heightDelta = _zoom * (_textureWidth / _textureHeight) / (_textureHeight + 1.0);
+            widthDelta = _zoom / (double)(_textureHeight + 1.0);
+        }
+
+        double xOffset = _xOffset -(widthDelta * _textureWidth / 2.0);
+        double yOffset = _yOffset -(heightDelta * _textureHeight / 2.0);
+
+        _xOffset = xOffset + (widthDelta * event->x());
+        _yOffset = yOffset + (heightDelta * event->y());
+
+        if(_xOffsetSpinBox != NULL) {
+            _xOffsetSpinBox->setValue(_xOffset);
+            _yOffsetSpinBox->setValue(_yOffset);
+        }
+}
+

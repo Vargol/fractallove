@@ -125,8 +125,6 @@ QLayout *PerlinNoiseShader::getParameterLayout(void) {
         _yOffsetSpinBox->setValue(_yOffset);
         parameterLayout->addWidget(_yOffsetSpinBox, 2, 1);
 
-
-
         QDoubleSpinBox *_zoomSpinBox = new QDoubleSpinBox;
         _zoomSpinBox->setMinimum(-99.9);
         _zoomSpinBox->setDecimals(9);
@@ -265,4 +263,24 @@ void PerlinNoiseShader::setXCentre(double x) {
 
 void PerlinNoiseShader::setYCentre(double y) {
         _yOffset = -y;
+}
+
+void PerlinNoiseShader::mouseReleaseEvent (QMouseEvent *event) {
+
+        double widthDelta, heightDelta;
+
+
+        if(_textureWidth < _textureHeight) {
+                widthDelta = _zoom * (_textureWidth / (double)_textureHeight) / (_textureWidth + 1.0);
+                heightDelta = _zoom / (_textureHeight + 1.0);
+        } else {
+            heightDelta = _zoom * (_textureWidth / _textureHeight) / (_textureHeight + 1.0);
+            widthDelta = _zoom / (double)(_textureHeight + 1.0);
+        }
+
+        double xOffset = _xOffset -(widthDelta * _textureWidth / 2.0);
+        double yOffset = _yOffset -(heightDelta * _textureHeight / 2.0);
+
+        _xOffset = xOffset + (widthDelta * event->x());
+        _yOffset = yOffset + (heightDelta * event->y());
 }

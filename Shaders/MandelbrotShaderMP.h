@@ -10,6 +10,8 @@
 #ifndef MandelbrotShaderMP_H
 #define MandelbrotShaderMP_H
 
+#include <QDoubleSpinBox>
+
 #include "Shader.h"
 
 class MandelbrotShaderMP : public Shader {
@@ -26,12 +28,21 @@ public:
         virtual void setRenderSize(unsigned int, unsigned int);
         virtual void render();
         virtual QLayout *getParameterLayout();  // get layout containing parameter controls
-//        virtual void render(double top, double bottom, double left, double right);
+        virtual void mouseReleaseEvent (QMouseEvent *event);
+
 
 protected slots:
         void setZoom(double value);
         void setXCentre(double);
         void setYCentre(double y);
+        void setIterations(int i);
+
+protected:
+        double _xOffset, _yOffset, _zoom;
+        int _iterations;
+        QDoubleSpinBox *_xOffsetSpinBox;
+        QDoubleSpinBox *_yOffsetSpinBox;
+
 
 };
 

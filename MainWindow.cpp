@@ -107,7 +107,5 @@ void MainWindow::connectSignalAndSlots () {
 
         QObject::connect(&_fc, SIGNAL(redrawFractal()),
                                          _compWidget, SLOT(update()));
-//        QObject::connect(_xOffsetSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setXOffset(double)));
-//        QObject::connect(_yOffsetSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setYOffset(double)));
-//        QObject::connect(_zoomSpinBox, SIGNAL(valueChanged(double)), &_fc, SLOT(setZoom(double)));
+
     }

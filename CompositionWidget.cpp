@@ -23,3 +23,6 @@ void CompositionWidget::resizeEvent(QResizeEvent *event) {
     _fc->setViewPortSize(size.width(), size.height());
 }
 
+void CompositionWidget::mouseReleaseEvent (QMouseEvent *event) {
+    _fc->mouseReleaseEvent (event);
+}
