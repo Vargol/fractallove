@@ -62,7 +62,7 @@
  </data>
  <data>
   <variable>activebuildconfiguration</variable>
-  <value type="QString" >Debug</value>
+  <value type="QString" >Release</value>
  </data>
  <data>
   <variable>buildConfiguration-Debug</variable>
@@ -80,7 +80,7 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
    <value key="QtVersionId" type="int" >2</value>
    <value key="addQDumper" type="" ></value>
-   <value key="buildDirectory" type="QString" >/Users/vargol/Source/FractalLove/release/build</value>
+   <value key="buildDirectory" type="QString" >/Users/vargol/Source/fractalLove/build/release</value>
    <value key="useShadowBuild" type="bool" >true</value>
   </valuemap>
  </data>
@@ -89,20 +89,20 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >Apple_PubSub_Socket_Render=/tmp/launch-FU8gTk/Render</value>
+    <value type="QString" >Apple_PubSub_Socket_Render=/tmp/launch-FVIOmO/Render</value>
     <value type="QString" >COMMAND_MODE=legacy</value>
     <value type="QString" >DAZSTUDIO=/Applications/DAZStudio</value>
     <value type="QString" >DAZSTUDIOVERSION=33751858</value>
-    <value type="QString" >DBUS_LAUNCHD_SESSION_BUS_SOCKET=/tmp/launch-Xr1Qhu/unix_domain_listener</value>
-    <value type="QString" >DISPLAY=/tmp/launch-zWH2kc/:0</value>
+    <value type="QString" >DBUS_LAUNCHD_SESSION_BUS_SOCKET=/tmp/launch-mQpnRu/unix_domain_listener</value>
+    <value type="QString" >DISPLAY=/tmp/launch-7bn4br/:0</value>
     <value type="QString" >GL_ENABLE_DEBUG_ATTACH=YES</value>
     <value type="QString" >HOME=/Users/vargol</value>
     <value type="QString" >LOGNAME=vargol</value>
     <value type="QString" >PATH=/Developer/Tools/Qt:/usr/bin:/bin:/usr/sbin:/sbin</value>
     <value type="QString" >QTDIR=/usr</value>
-    <value type="QString" >SECURITYSESSIONID=6a3520</value>
+    <value type="QString" >SECURITYSESSIONID=68c380</value>
     <value type="QString" >SHELL=/bin/bash</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/launch-tHTgfa/Listeners</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/launch-tR86iU/Listeners</value>
     <value type="QString" >TMPDIR=/var/folders/jr/jrWIQ+Ps2RW+t++1YvXpx++++TI/-Tmp-/</value>
     <value type="QString" >USER=vargol</value>
     <value type="QString" >__CF_USER_TEXT_ENCODING=0x1F5:0:0</value>
@@ -115,7 +115,7 @@
     <value type="QString" >CONFIG+=debug_and_release</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString" >/usr/bin/qmake</value>
-   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
    <value key="abstractProcess.workingDirectory" type="QString" >/Users/vargol/Source/FractalLove/build/debug</value>
    <value key="buildConfiguration" type="int" >10</value>
   </valuemap>
@@ -125,20 +125,20 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >Apple_PubSub_Socket_Render=/tmp/launch-FU8gTk/Render</value>
+    <value type="QString" >Apple_PubSub_Socket_Render=/tmp/launch-FVIOmO/Render</value>
     <value type="QString" >COMMAND_MODE=legacy</value>
     <value type="QString" >DAZSTUDIO=/Applications/DAZStudio</value>
     <value type="QString" >DAZSTUDIOVERSION=33751858</value>
-    <value type="QString" >DBUS_LAUNCHD_SESSION_BUS_SOCKET=/tmp/launch-Xr1Qhu/unix_domain_listener</value>
-    <value type="QString" >DISPLAY=/tmp/launch-zWH2kc/:0</value>
+    <value type="QString" >DBUS_LAUNCHD_SESSION_BUS_SOCKET=/tmp/launch-mQpnRu/unix_domain_listener</value>
+    <value type="QString" >DISPLAY=/tmp/launch-7bn4br/:0</value>
     <value type="QString" >GL_ENABLE_DEBUG_ATTACH=YES</value>
     <value type="QString" >HOME=/Users/vargol</value>
     <value type="QString" >LOGNAME=vargol</value>
     <value type="QString" >PATH=/Developer/Tools/Qt:/usr/bin:/bin:/usr/sbin:/sbin</value>
     <value type="QString" >QTDIR=/usr</value>
-    <value type="QString" >SECURITYSESSIONID=6a3520</value>
+    <value type="QString" >SECURITYSESSIONID=68c380</value>
     <value type="QString" >SHELL=/bin/bash</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/launch-tHTgfa/Listeners</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/launch-tR86iU/Listeners</value>
     <value type="QString" >TMPDIR=/var/folders/jr/jrWIQ+Ps2RW+t++1YvXpx++++TI/-Tmp-/</value>
     <value type="QString" >USER=vargol</value>
     <value type="QString" >__CF_USER_TEXT_ENCODING=0x1F5:0:0</value>
@@ -192,12 +192,67 @@
   <variable>buildconfiguration-Release-buildstep0</variable>
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >Apple_PubSub_Socket_Render=/tmp/launch-FVIOmO/Render</value>
+    <value type="QString" >COMMAND_MODE=legacy</value>
+    <value type="QString" >DAZSTUDIO=/Applications/DAZStudio</value>
+    <value type="QString" >DAZSTUDIOVERSION=33751858</value>
+    <value type="QString" >DBUS_LAUNCHD_SESSION_BUS_SOCKET=/tmp/launch-mQpnRu/unix_domain_listener</value>
+    <value type="QString" >DISPLAY=/tmp/launch-7bn4br/:0</value>
+    <value type="QString" >GL_ENABLE_DEBUG_ATTACH=YES</value>
+    <value type="QString" >HOME=/Users/vargol</value>
+    <value type="QString" >LOGNAME=vargol</value>
+    <value type="QString" >PATH=/Developer/Tools/Qt:/usr/bin:/bin:/usr/sbin:/sbin</value>
+    <value type="QString" >QTDIR=/usr</value>
+    <value type="QString" >SECURITYSESSIONID=68c380</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/launch-tR86iU/Listeners</value>
+    <value type="QString" >TMPDIR=/var/folders/jr/jrWIQ+Ps2RW+t++1YvXpx++++TI/-Tmp-/</value>
+    <value type="QString" >USER=vargol</value>
+    <value type="QString" >__CF_USER_TEXT_ENCODING=0x1F5:0:0</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >/Users/vargol/Source/FractalLove/FractalLove.pro</value>
+    <value type="QString" >-spec</value>
+    <value type="QString" >macx-g++</value>
+    <value type="QString" >-r</value>
+    <value type="QString" >CONFIG+=release</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/qmake</value>
+   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/Users/vargol/Source/fractalLove/build/release</value>
+   <value key="buildConfiguration" type="int" >0</value>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Release-buildstep1</variable>
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >Apple_PubSub_Socket_Render=/tmp/launch-FVIOmO/Render</value>
+    <value type="QString" >COMMAND_MODE=legacy</value>
+    <value type="QString" >DAZSTUDIO=/Applications/DAZStudio</value>
+    <value type="QString" >DAZSTUDIOVERSION=33751858</value>
+    <value type="QString" >DBUS_LAUNCHD_SESSION_BUS_SOCKET=/tmp/launch-mQpnRu/unix_domain_listener</value>
+    <value type="QString" >DISPLAY=/tmp/launch-7bn4br/:0</value>
+    <value type="QString" >GL_ENABLE_DEBUG_ATTACH=YES</value>
+    <value type="QString" >HOME=/Users/vargol</value>
+    <value type="QString" >LOGNAME=vargol</value>
+    <value type="QString" >PATH=/Developer/Tools/Qt:/usr/bin:/bin:/usr/sbin:/sbin</value>
+    <value type="QString" >QTDIR=/usr</value>
+    <value type="QString" >SECURITYSESSIONID=68c380</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/launch-tR86iU/Listeners</value>
+    <value type="QString" >TMPDIR=/var/folders/jr/jrWIQ+Ps2RW+t++1YvXpx++++TI/-Tmp-/</value>
+    <value type="QString" >USER=vargol</value>
+    <value type="QString" >__CF_USER_TEXT_ENCODING=0x1F5:0:0</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/Users/vargol/Source/fractalLove/build/release</value>
    <value key="buildConfiguration" type="int" >8</value>
   </valuemap>
  </data>

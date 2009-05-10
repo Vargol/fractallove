@@ -122,9 +122,6 @@ void JuliaOrbitalTrapMP::render() {
                         
                         int offset = (y * textureWidth) + x;
 
-//                        int trapOffset = floor(fmod(fabs(z.real()), 1.0)  *  height) * width;
-//                       trapOffset += floor(fmod(fabs(z.imag()), 1.0) * width);
-
 
                         double real = fabs(z.real());
                         real -=  (int)real;

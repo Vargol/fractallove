@@ -272,9 +272,9 @@ void MandelbrotShaderMP::mouseReleaseEvent (QMouseEvent *event) {
 
         if(_textureWidth < _textureHeight) {
                 widthDelta = _zoom * (_textureWidth / (double)_textureHeight) / (_textureWidth + 1.0);
-                heightDelta = _zoom / (_textureHeight + 1.0);
+                heightDelta = _zoom / (double)(_textureHeight + 1.0);
         } else {
-            heightDelta = _zoom * (_textureWidth / _textureHeight) / (_textureHeight + 1.0);
+            heightDelta = _zoom * (_textureWidth / (double)_textureHeight) / (_textureHeight + 1.0);
             widthDelta = _zoom / (double)(_textureHeight + 1.0);
         }
 

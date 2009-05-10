@@ -15,7 +15,7 @@ MandelbrotImageTrap::MandelbrotImageTrap() {
     _imaginary = 0.2;
     _imageFile = "basic00.jpg";
     _trapImage = NULL;
-    _oversample = 4;
+    _oversample = 1;
 }
 
 void MandelbrotImageTrap::setRenderSize(unsigned int width, unsigned int height) {
@@ -63,8 +63,8 @@ void MandelbrotImageTrap::render() {
     int textureHeight = _textureHeight * _oversample;
     int textureWidth = _textureWidth * _oversample;
 
-    int height = _trapImage->height();
-    int width = _trapImage->width();
+    int height = _trapImage->height() - 1;
+    int width = _trapImage->width() - 1;
     int bps = _trapImage->depth() == 32 ? 4 : 3;
         std::cout << "MandelbrotImageTrap::render "  << _textureWidth << ", " << _textureHeight << std::endl;
 
@@ -75,14 +75,14 @@ void MandelbrotImageTrap::render() {
 
         if(textureWidth < textureHeight) {
                 widthDelta = _zoom * (textureWidth / (double)textureHeight) / (textureWidth + 1.0);
-                heightDelta = _zoom / (textureHeight + 1.0);
+                heightDelta = _zoom / (double)(textureHeight + 1.0);
         } else {
-            heightDelta = _zoom * (textureWidth / textureHeight) / (textureHeight + 1.0);
+            heightDelta = _zoom * (textureWidth / (double)textureHeight) / (textureHeight + 1.0);
             widthDelta = _zoom / (double)(textureHeight + 1.0);
         }
 
-        double xOffset = -(widthDelta * textureWidth / 2.0)  + _xOffset;
-        double yOffset = -(heightDelta * textureHeight / 2.0) + _yOffset;
+        double xOffset = _xOffset - (widthDelta * textureWidth / 2.0);
+        double yOffset = _yOffset - (heightDelta * textureHeight / 2.0);
 
         complex<double> z, z0;
 
@@ -118,8 +118,14 @@ void MandelbrotImageTrap::render() {
                        }
                         
                        int offset = (y * textureWidth) + x;
-                       int trapOffset = floor(abs(fmod(z.real(), 1.0))  *  height) * width;
-                       trapOffset += floor(abs(fmod(z.imag(), 1.0)) * width);
+
+                        double real = fabs(z.real());
+                        real -=  (int)real;
+                        int trapOffset = floor(real *  height) * width;
+
+                        double imag = fabs(z.imag());
+                        imag -=  (int)imag;
+                        trapOffset += (imag * width);
 
                        if(trapOffset * bps > _trapImage->numBytes()) {
                            cout <<  "bad value " <<fmod(fabs(z.real()), 1.0) << ',' <<fmod(fabs(z.imag()), 1.0)<< endl;
@@ -146,7 +152,7 @@ std::cout << "MandelbrotImageTrap::render finished mandlebrot" << std::endl;
 
         delete image;
 
-        QString str = "/home/david/test.png";
+        QString str = "~/test.png";
 
         bool saved = _image->save(str);
 
