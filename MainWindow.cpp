@@ -64,6 +64,9 @@ MainWindow::MainWindow(void) : QWidget(NULL) {
         _fractals->addItem(tr("Julia Orbital Trap"));
         _fractals->addItem(tr("Mandelbrot Orbit Trap"));
         _fractals->addItem(tr("Mandelbrot Image Trap"));
+        _fractals->addItem(tr("Curlicue Fractal"));
+        _fractals->addItem(tr("Mobius Fractal"));
+        _fractals->addItem(tr("Apollonian Gasket"));
 
         vbox->addWidget(_fractals);
 

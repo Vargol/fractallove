@@ -24,6 +24,9 @@
 #include "Shaders/JuliaOrbitalTrapMP.h"
 #include "Shaders/MandelbrotImageTrap.h"
 #include "Shaders/MandelbrotOrbitTrap.h"
+#include "Shaders/CurlicueFractal.h"
+#include "Shaders/ApollonianGasket.h"
+#include "Shaders/Mobius.h"
 
 using namespace std;
 
@@ -161,6 +164,12 @@ void FractalController::setFractalClass(const QString &fractalClass)
             addShader(new MandelbrotOrbitTrap());
         } else if(fractalClass.compare(QObject::tr("Mandelbrot Image Trap")) == 0) {
             addShader(new MandelbrotImageTrap());
+        } else if(fractalClass.compare(QObject::tr("Curlicue Fractal")) == 0) {
+            addShader(new CurlicueFractal());
+        } else if(fractalClass.compare(QObject::tr("Mobius Fractal")) == 0) {
+            addShader(new Mobius());
+        } else if(fractalClass.compare(QObject::tr("Apollonian Gasket")) == 0) {
+            addShader(new ApollonianGasket());
         }
 
         QLayout *old = _fractalGroupBox->layout();

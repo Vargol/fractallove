@@ -17,7 +17,10 @@ SOURCES += main.cpp \
     Shaders/OpenGLShader.cpp \
     Shaders/JuliaOrbitalTrapMP.cpp \
     Shaders/MandelbrotOrbitTrap.cpp \
-    Shaders/MandelbrotImageTrap.cpp
+    Shaders/MandelbrotImageTrap.cpp \
+    ../fractallove/Shaders/CurlicueFractal.cpp \
+    ../fractallove/Shaders/Mobius.cpp \
+    ../fractallove/Shaders/ApollonianGasket.cpp
 HEADERS += MainWindow.h \
     main.h \
     FractalController.h \
@@ -30,12 +33,17 @@ HEADERS += MainWindow.h \
     Shaders/OpenGLShader.h \
     Shaders/JuliaOrbitalTrapMP.h \
     Shaders/MandelbrotOrbitTrap.h \
-    Shaders/MandelbrotImageTrap.h
-
+    Shaders/MandelbrotImageTrap.h \
+    ../fractallove/Shaders/CurlicueFractal.h \
+    ../fractallove/Shaders/Mobius.h \
+    ../fractallove/Shaders/ApollonianGasket.h
 QMAKE_CXX = i686-apple-darwin9-g++-4.2.1
 QMAKE_CC = i686-apple-darwin9-gcc-4.2.1
 QMAKE_LINK = i686-apple-darwin9-g++-4.2.1
-
 QMAKE_CXXFLAGS = -fopenmp \
-    -DGL_GLEXT_PROTOTYPES -msse2 -mfpmath=sse -funroll-loops -fomit-frame-pointer
+    -DGL_GLEXT_PROTOTYPES \
+    -msse2 \
+    -mfpmath=sse \
+    -funroll-loops \
+    -fomit-frame-pointer
 QMAKE_LFLAGS = -fopenmp
