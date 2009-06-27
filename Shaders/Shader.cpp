@@ -31,9 +31,19 @@ std::string &Shader::functionName(void) {
 
 void Shader::setRenderSize(unsigned int width, unsigned int height) {
 	
-	_textureWidth = width;
-	_textureHeight = height;
-	
+        std::cout << "MandelbrotShaderMP::setRenderSize "  << width << ", " << height << std::endl;
+
+        if(_textureWidth != width || _textureHeight != height) {
+
+                if(_imageBuffer != NULL) {
+                        free(_imageBuffer);
+                }
+                _imageBuffer = (unsigned char *)malloc(4 * height * width * sizeof(unsigned char));
+        }
+
+        _textureWidth = width;
+        _textureHeight = height;
+
 }
 
 //void Shader::render(double top, double bottom, double left, double right) {
