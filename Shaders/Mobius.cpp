@@ -8,6 +8,7 @@
 
 #include <math.h>
 #include <iostream>
+#include <limits>
 
 Mobius::Mobius() {
     
@@ -173,7 +174,7 @@ QLayout *Mobius::getParameterLayout() {
 
         QSpinBox *_iterationsSpinBox = new QSpinBox;
         _iterationsSpinBox->setMinimum(1);
-        _iterationsSpinBox->setMaximum(INT32_MAX);
+        _iterationsSpinBox->setMaximum(std::numeric_limits<int>::max());
         _iterationsSpinBox->setValue(_iterations);
         parameterLayout->addWidget(_iterationsSpinBox, 4, 1);
 

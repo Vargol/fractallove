@@ -16,6 +16,9 @@
 
 using namespace std;
 class ApollonianGasket : public Shader {
+
+    Q_OBJECT
+
 public:
 
     ApollonianGasket();
@@ -62,10 +65,8 @@ protected slots:
     void setXCentre(int);
     void setYCentre(int);
 
-    void setTaReal(double r);
-    void setTaImaginary(double i);
-    void setTbReal(double r);
-    void setTbImaginary(double i);
+    void setLevels(int);
+    void setCircleCount(int);
 
 };
 

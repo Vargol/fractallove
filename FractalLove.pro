@@ -37,9 +37,9 @@ HEADERS += MainWindow.h \
     ../fractallove/Shaders/CurlicueFractal.h \
     ../fractallove/Shaders/Mobius.h \
     ../fractallove/Shaders/ApollonianGasket.h
-QMAKE_CXX = i686-apple-darwin9-g++-4.2.1
-QMAKE_CC = i686-apple-darwin9-gcc-4.2.1
-QMAKE_LINK = i686-apple-darwin9-g++-4.2.1
+#QMAKE_CXX = i686-apple-darwin9-g++-4.2.1
+#QMAKE_CC = i686-apple-darwin9-gcc-4.2.1
+#QMAKE_LINK = i686-apple-darwin9-g++-4.2.1
 QMAKE_CXXFLAGS = -fopenmp \
     -DGL_GLEXT_PROTOTYPES \
     -msse2 \

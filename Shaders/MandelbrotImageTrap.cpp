@@ -95,7 +95,7 @@ void MandelbrotImageTrap::render() {
 
         unsigned int i;
 
-        unsigned int x;
+        unsigned int x = 0;
 
         unsigned char *imageBuffer = _imageBuffer;
         unsigned char *trapBuffer = _trapImage->bits();

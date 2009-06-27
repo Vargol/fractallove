@@ -7,6 +7,7 @@
 #include <QPushButton>
 
 #include <math.h>
+#include <limits>
 
 CurlicueFractal::CurlicueFractal() {
 
@@ -98,7 +99,7 @@ QLayout *CurlicueFractal::getParameterLayout() {
 
         QSpinBox *_iterationsSpinBox = new QSpinBox;
         _iterationsSpinBox->setMinimum(1);
-        _iterationsSpinBox->setMaximum(INT32_MAX);
+        _iterationsSpinBox->setMaximum(std::numeric_limits<int>::max());
         _iterationsSpinBox->setValue(_iterations);
         parameterLayout->addWidget(_iterationsSpinBox, 4, 1);
 

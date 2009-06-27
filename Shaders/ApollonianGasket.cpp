@@ -1,5 +1,5 @@
 #include "ApollonianGasket.h"
-
+#include <limits>
 #include <QPainter>
 
 ApollonianGasket::ApollonianGasket()
@@ -7,7 +7,7 @@ ApollonianGasket::ApollonianGasket()
 
     _oversample = 3;
     _circleCount = 3;
-    _levels = 12;
+    _levels = 5;
     _showInversionCircles = false;
     _zoom = 200 * _oversample;
 
@@ -21,6 +21,10 @@ bool ApollonianGasket::initializeShader() {
 
 void ApollonianGasket::render() {
 
+    _circles.clear();
+    _inversionCircles.r.clear();
+    _inversionCircles.x.clear();
+    _inversionCircles.y.clear();
 
     vector<double> V;
     vector<double> cosV;
@@ -38,16 +42,6 @@ void ApollonianGasket::render() {
         cosV.push_back(cosValue);
         sinV.push_back(sinValue);
     }
-
-    /*
-   for(int i=1; i < _circleCount; i++) {
-
-       double cosDiff = cosV[i] - cosV[i-1];
-       double sinDiff = sinV[i] - sinV[i-1];
-
-       diameter.push_back(sqrt((cosDiff * cosDiff) + (sinDiff - sinDiff)));
-   }
-*/
 
       double cosDiff = cosV[1] - cosV[0];
       double sinDiff = sinV[1] - sinV[0];
@@ -273,8 +267,8 @@ QLayout *ApollonianGasket::getParameterLayout() {
         parameterLayout->addWidget(new QLabel(tr("Centre x: ")), 1, 0);
         parameterLayout->addWidget(new QLabel(tr("Centre y: ")), 2, 0);
         parameterLayout->addWidget(new QLabel(tr("Zoom: ")), 3, 0);
-        parameterLayout->addWidget(new QLabel(tr("Iterations: ")), 4, 0);
-        parameterLayout->addWidget(new QLabel(tr("Centre x: ")), 5, 0);
+        parameterLayout->addWidget(new QLabel(tr("Circles: ")), 4, 0);
+        parameterLayout->addWidget(new QLabel(tr("Levels: ")), 5, 0);
 
         _xOffsetSpinBox = new QSpinBox;
         _xOffsetSpinBox->setRange(-999999, 999999);
@@ -295,17 +289,25 @@ QLayout *ApollonianGasket::getParameterLayout() {
         parameterLayout->addWidget(_zoomSpinBox, 3, 1);
 
 
+        QSpinBox *circlesSpinBox = new QSpinBox;
+        circlesSpinBox->setMinimum(1);
+        circlesSpinBox->setMaximum(std::numeric_limits<int>::max());
+        circlesSpinBox->setValue(_circleCount);
+        parameterLayout->addWidget(circlesSpinBox, 4, 1);
+
+
         QSpinBox *_levelSpinBox = new QSpinBox;
         _levelSpinBox->setMinimum(1);
-        _levelSpinBox->setMaximum(INT32_MAX);
+        _levelSpinBox->setMaximum(std::numeric_limits<int>::max());
         _levelSpinBox->setValue(_levels);
-        parameterLayout->addWidget(_levelSpinBox, 4, 1);
+        parameterLayout->addWidget(_levelSpinBox, 5, 1);
 
 
         QObject::connect(_xOffsetSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setXCentre(int)));
         QObject::connect(_yOffsetSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setYCentre(int)));
         QObject::connect(_zoomSpinBox, SIGNAL(valueChanged(double)), this, SLOT(setZoom(double)));
-        QObject::connect(_levelSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setIterations(int)));
+        QObject::connect(_levelSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setLevels(int)));
+        QObject::connect(circlesSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setCircleCount(int)));
 
         _parameterLayout    = parameterLayout;
 
@@ -353,3 +355,33 @@ void ApollonianGasket::setRenderSize(unsigned int width, unsigned int height) {
         _textureHeight = height;
 
 }
+
+void ApollonianGasket::setZoom(double value) {
+
+        _zoom = value;
+}
+
+
+void ApollonianGasket::setXCentre(int x) {
+
+        _xOffset = x;
+}
+
+void ApollonianGasket::setYCentre(int y) {
+
+        _yOffset = y;
+}
+
+void ApollonianGasket::setLevels(int levels) {
+
+        _levels = levels;
+}
+
+void ApollonianGasket::setCircleCount(int count) {
+
+    _circleCount = count;
+}
+
+
+
+

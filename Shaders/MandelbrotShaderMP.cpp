@@ -27,6 +27,7 @@ texture 2 -> VBO GL_POINTS
 */ 
 #include <iostream>
 #include <complex>
+#include <limits>
 
 #include <QImageWriter>
 #include <QGroupBox>
@@ -229,7 +230,7 @@ QLayout *MandelbrotShaderMP::getParameterLayout(void) {
 
         QSpinBox *_iterationsSpinBox = new QSpinBox;
         _iterationsSpinBox->setMinimum(1);
-        _iterationsSpinBox->setMaximum(INT32_MAX);
+        _iterationsSpinBox->setMaximum(std::numeric_limits<int>::max());
         _iterationsSpinBox->setValue(_iterations);
         parameterLayout->addWidget(_iterationsSpinBox, 4, 1);
 
